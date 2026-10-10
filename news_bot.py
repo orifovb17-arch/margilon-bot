@@ -3,7 +3,7 @@ from threading import Thread
 from flask import Flask
 import telebot
 
-# --- 1. Render uchun Flask server ---
+# --- 1. Server Render uchun ---
 app = Flask('')
 
 @app.route('/')
@@ -33,15 +33,19 @@ def send_welcome(message):
 
 @bot.message_handler(func=lambda message: True)
 def handle_buttons(message):
-    if message.text == "ℹ️ Bot nimalar qila oladi?":
+    text = message.text
+    if "nimalar qila oladi" in text:
         bot.send_message(message.chat.id, "Bu bot orqali 'Marg'ilon 24/7' kanaliga xabar va yangiliklar yuborishingiz mumkin.")
-    elif message.text == "📩 Xabar / Yangilik yuborish":
+    elif "Xabar" in text or "Yangilik" in text:
         bot.send_message(message.chat.id, "Murojaatingizni yozib qoldiring, adminlar ko'rib chiqadi:")
+    else:
+        bot.send_message(message.chat.id, "Xabaringiz qabul qilindi, tez orada ko'rib chiqamiz!")
 
 # --- 3. Ishga tushirish ---
 if __name__ == "__main__":
     keep_alive()
     bot.infinity_polling()
+
 
 
 
