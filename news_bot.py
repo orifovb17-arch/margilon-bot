@@ -19,7 +19,7 @@ def keep_alive():
     t.start()
 
 # --- 2. Telegram bot kodi ---
-TOKEN = "8787574332:AAF1RUDTBbOB-aaEBCGs4MeR0WDtKenSw-k:
+TOKEN = "8787574332:AAF1RUDTBbOB-aaEBCGs4MeR0WDtKenSw-k"
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start', 'help'])
