@@ -1,3 +1,4 @@
+
 import os
 from threading import Thread
 from flask import Flask
@@ -34,19 +35,33 @@ def send_welcome(message):
 
 @bot.message_handler(content_types=['text', 'photo', 'video', 'voice', 'document'])
 def handle_all_messages(message):
-    # Agar xabar tugmalardan biri bo'lsa:
+    # Agar xabar "Bot nimalar qila oladi?" tugmasi bo'lsa:
     if message.text and "nimalar qila oladi" in message.text:
-        bot.send_message(message.chat.id, "Bu bot orqali 'Marg'ilon 24/7' kanaliga xabar va yangiliklar yuborishingiz mumkin.")
+        info_text = (
+            "ℹ️ **\"Marg'ilon 24/7\" rasmiy murojaat boti!**\n\n"
+            "Ushbu bot orqali siz:\n"
+            "🔹 Marg'ilon va Farg'ona vodiysidagi tezkor xabar, voqea va hodisalarni yuborishingiz;\n"
+            "🔹 Foto, video yoki audio murojaatlarni kanal adminlariga yetkazishingiz;\n"
+            "🔹 Reklama va hamkorlik bo'yicha bog'lanishingiz mumkin.\n\n"
+            "📩 *Xabaringiz maxfiyligi ta'minlanadi!*"
+        )
+        bot.send_message(message.chat.id, info_text, parse_mode="Markdown")
+        
+    # Agar xabar "Xabar / Yangilik yuborish" tugmasi bo'lsa:
     elif message.text and ("Xabar" in message.text or "Yangilik" in message.text):
         bot.send_message(message.chat.id, "Murojaatingizni yozib qoldiring (tekst, rasm yoki video yuborishingiz mumkin):")
-    else:
-        # Xabarni adminga (sizga) yo'naltirish:
-        user_info = f"📩 **Yangi murojaat keldi!**\n\nKimdan: @{message.from_user.username if message.from_user.username else 'Yashirin profil'}\nIsmi: {message.from_user.first_name}\nID: `{message.chat.id}`"
         
+    # Qolgan barcha xabarlar adminga yo'naltiriladi:
+    else:
+        user_info = (
+            f"📩 **Yangi murojaat keldi!**\n\n"
+            f"Kimdan: @{message.from_user.username if message.from_user.username else 'Yashirin profil'}\n"
+            f"Ismi: {message.from_user.first_name}\n"
+            f"ID: `{message.chat.id}`"
+        )
         bot.send_message(ADMIN_ID, user_info, parse_mode="Markdown")
         bot.forward_message(ADMIN_ID, message.chat.id, message.message_id)
         
-        # Foydalanuvchiga tasdiq xabari:
         bot.send_message(message.chat.id, "Xabaringiz adminga yetkazildi! Rahmat.")
 
 # --- 3. Ishga tushirish ---
