@@ -18,7 +18,7 @@ def keep_alive():
     t.start()
 
 # --- 2. Bot va Admin Sozlamalari ---
-TOKEN = "8787574332:AAFqmI0K_lYu8JFKuVUMqc8MU09Ves6kgOc"
+TOKEN = "8787574332:AAGPJOvCwdjKYt389GUQO_on4GENqTRKBhw"
 ADMIN_ID = 8492433312  # Sizning Telegram ID ingiz
 
 bot = telebot.TeleBot(TOKEN)
