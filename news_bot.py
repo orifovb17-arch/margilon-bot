@@ -1,27 +1,26 @@
-
-import os
-from threading import Thread
-from flask import Flask
 import telebot
+from threading import Thread
+import os
 
-# --- 1. Server Render uchun ---
+# --- 1. Flask веб-сервер для поддержки работы 24/7 ---
+from flask import Flask
 app = Flask('')
 
 @app.route('/')
 def home():
-    return "Bot ishlamoqda!"
+    return "Bot is alive!"
 
 def run():
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=8080)
 
 def keep_alive():
     t = Thread(target=run)
     t.start()
 
-# --- 2. Telegram bot kodi ---
-TOKEN = "8787574332:AAFqmI0K_lYu8JFKuVUMqc8MU09Ves6kgOc"
-ADMIN_ID = 8492433312  # Sizning Telegram ID ingiz
+# --- 2. Код Telegram-бота ---
+TOKEN = "8787574332:AAFqmI0K_1Yu8JFKuVMqc8M" # Ваш токен
+ADMIN_ID = 8492433312                       # Ваш Telegram ID
+
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start', 'help'])
@@ -33,41 +32,12 @@ def send_welcome(message):
     
     bot.reply_to(message, "Assalomu alaykum! Marg'ilon 24/7 botiga xush kelibsiz!", reply_markup=markup)
 
-@bot.message_handler(content_types=['text', 'photo', 'video', 'voice', 'document'])
+@bot.message_handler(func=lambda message: True, content_types=['text', 'photo', 'video', 'document', 'voice'])
 def handle_all_messages(message):
-    # Agar xabar "Bot nimalar qila oladi?" tugmasi bo'lsa:
-    if message.text and "nimalar qila oladi" in message.text:
-        info_text = (
-            "ℹ️ **\"Marg'ilon 24/7\" rasmiy murojaat boti!**\n\n"
-            "Ushbu bot orqali siz:\n"
-            "🔹 Marg'ilon va Farg'ona vodiysidagi tezkor xabar, voqea va hodisalarni yuborishingiz;\n"
-            "🔹 Foto, video yoki audio murojaatlarni kanal adminlariga yetkazishingiz;\n"
-            "🔹 Reklama va hamkorlik bo'yicha bog'lanishingiz mumkin.\n\n"
-            "📩 *Xabaringiz maxfiyligi ta'minlanadi!*"
-        )
-        bot.send_message(message.chat.id, info_text, parse_mode="Markdown")
-        
-    # Agar xabar "Xabar / Yangilik yuborish" tugmasi bo'lsa:
-    elif message.text and ("Xabar" in message.text or "Yangilik" in message.text):
-        bot.send_message(message.chat.id, "Murojaatingizni yozib qoldiring (tekst, rasm yoki video yuborishingiz mumkin):")
-        
-    # Qolgan barcha xabarlar adminga yo'naltiriladi:
-    else:
-        user_info = (
-            f"📩 **Yangi murojaat keldi!**\n\n"
-            f"Kimdan: @{message.from_user.username if message.from_user.username else 'Yashirin profil'}\n"
-            f"Ismi: {message.from_user.first_name}\n"
-            f"ID: `{message.chat.id}`"
-        )
-        bot.send_message(ADMIN_ID, user_info, parse_mode="Markdown")
-        bot.forward_message(ADMIN_ID, message.chat.id, message.message_id)
-        
-        bot.send_message(message.chat.id, "Xabaringiz adminga yetkazildi! Rahmat.")
+    # Если сообщение пришло от обычного пользователя (не от админа)
+    if message.from_user.id
+ 
 
-# --- 3. Ishga tushirish ---
-if __name__ == "__main__":
-    keep_alive()
-    bot.infinity_polling()
 
 
 
