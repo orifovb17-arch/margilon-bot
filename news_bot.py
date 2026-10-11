@@ -18,7 +18,7 @@ def keep_alive():
     t.start()
 
 # --- 2. Telegram bot sozlamalari ---
-TOKEN = "8787574332:AAFqmI0K_1Yu8JFKuVMqc8M"
+TOKEN "8787574332:AAGPJOvCwdjKYt389GUQO_on4GENqTRKBhw"
 ADMIN_ID = 8492433312
 
 bot = telebot.TeleBot(TOKEN)
