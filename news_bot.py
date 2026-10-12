@@ -5,7 +5,7 @@ from flask import Flask
 import telebot
 
 # Telegram Bot Tokeningizni atrofdagi o'zgaruvchidan yoki to'g'ridan-to'g'ri oling
-TOKEN = os.environ.get('BOT_TOKEN', 'YOUR_BOT_TOKEN_HERE')
+TOKEN = "8787574332:AAFq3fbEj7wqAEtExR3eJb5F66bn8Fxf-i0"
 
 bot = telebot.TeleBot(TOKEN)
 app = Flask(__name__)
